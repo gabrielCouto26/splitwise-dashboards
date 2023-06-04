@@ -43,9 +43,13 @@
     "@adonisjs/shield": "^7.1.0",
     "@adonisjs/view": "^6.2.0",
     "@eidellev/inertia-adonisjs": "^8.0.1",
+    "@inertiajs/vue3": "^1.0.7",
+    "@vue/server-renderer": "^3.3.4",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.21",
-    "splitwise": "^1.0.0"
+    "splitwise": "^1.0.0",
+    "vue": "^3.3.4",
+    "webpack-node-externals": "^3.0.0"
   }
 }
