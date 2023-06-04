@@ -21,6 +21,7 @@
     "adonis-preset-ts": "^2.1.0",
     "pino-pretty": "^10.0.0",
     "typescript": "~4.6",
+    "vue-loader": "^17.2.2",
     "webpack": "^5.85.0",
     "webpack-cli": "^4.10.0",
     "youch": "^3.2.3",
