@@ -20,8 +20,5 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async ({ inertia }) => {
-  return inertia.render('Home', { description: 'Hello World' })
-})
-
-Route.get('/splitwise', 'SplitwiseController.index')
+Route.get('/groups', 'GroupController.index')
+Route.get('/groups/:id', 'GroupController.show')
