@@ -1,12 +1,11 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Env from '@ioc:Adonis/Core/Env'
-import SplitwiseService from 'App/Services/SplitwiseService'
+import ISplitwiseService from 'App/Interfaces/Services/ISplitwiseService'
 
 export default class GroupController {
-  private swService: SplitwiseService
+  private swService: ISplitwiseService
 
-  constructor () {
-    this.swService = new SplitwiseService(Env.get('SPLITWISE_API_KEY', ''))
+  constructor ({ SplitwiseService }) {
+    this.swService = SplitwiseService
   }
 
   public async index ({ inertia }: HttpContextContract) {

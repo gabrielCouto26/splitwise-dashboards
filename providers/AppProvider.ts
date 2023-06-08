@@ -1,11 +1,16 @@
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import GroupController from 'App/Controllers/Http/GroupController';
 
 export default class AppProvider {
   constructor (protected app: ApplicationContract) {
   }
 
   public register () {
-    // Register your own bindings
+    // Registra GroupController
+    this.app.container.singleton('App/Controllers/Http/GroupController', (app) => {
+      const SplitwiseService = app.use('App/Services/SplitwiseService')
+      return new GroupController({ SplitwiseService });
+    })
   }
 
   public async boot () {
