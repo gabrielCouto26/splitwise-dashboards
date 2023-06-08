@@ -1,7 +1,7 @@
 <script>
 export default {
   props: {
-    groups: Array,
+    group: Object,
   }
 }
 </script>
@@ -9,10 +9,8 @@ export default {
 <template>
   <section>
     <header>
-      <h1>Home</h1>
-      <li v-for="group in groups">
-        {{ group }}
-      </li>
+      <h1>Group</h1>
+      <p>{{ group }}</p>
     </header>
   </section>
 </template>
