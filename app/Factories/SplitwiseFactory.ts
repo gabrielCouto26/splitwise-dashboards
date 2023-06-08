@@ -1,8 +1,9 @@
 import Env from '@ioc:Adonis/Core/Env'
+import ISplitwiseService from 'App/Interfaces/Services/ISplitwiseService'
 import Splitwise from 'splitwise'
 
 export default class SplitwiseFactory {
-  private static instance: Splitwise
+  private static instance: ISplitwiseService
 
   private constructor() {
     const consumerKey = Env.get('SPLITWISE_CONSUMER_KEY', '')
@@ -15,7 +16,7 @@ export default class SplitwiseFactory {
 
   public static getInstance(): Splitwise {
     if (!SplitwiseFactory.instance) {
-      SplitwiseFactory.instance = new SplitwiseFactory()
+      SplitwiseFactory.instance = new SplitwiseFactory() as ISplitwiseService
     }
 
     return SplitwiseFactory.instance
