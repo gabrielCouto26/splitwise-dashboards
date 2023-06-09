@@ -1,29 +1,25 @@
-import { Group } from '../Interfaces/Group';
+import Env from '@ioc:Adonis/Core/Env'
 import ISplitwiseService from '../Interfaces/Services/ISplitwiseService';
+import IHttpClient from 'App/Interfaces/Http/IHttpClient';
+import { Group } from '../Interfaces/Group';
 import { Expense } from '../Interfaces/Expense';
-import axios from 'axios';
 
 export default class SplitwiseService implements ISplitwiseService {
+  private httpClient: IHttpClient
 
-  private baseUrl = 'https://secure.splitwise.com/api/v3.0'
-
-  private headers = {
-    'Authorization': `Bearer `,
-    'Content-Type': 'application/json'
-  }
-
-  constructor(SPLITWISE_API_KEY: string) {
-    if (!SPLITWISE_API_KEY)
-      throw new Error('SPLITWISE_API_KEY is required')
-
-    this.headers.Authorization += SPLITWISE_API_KEY
+  constructor({ HttpClient }) {
+    const BASE_URL = Env.get('SPLITWISE_BASE_URL', '')
+    const API_KEY = Env.get('SPLITWISE_API_KEY', '')
+    this.httpClient = HttpClient({
+      baseURL: BASE_URL, bearerToken: API_KEY })
   }
 
   async getGroup(id: number): Promise<Group | null> {
     let group = null
-    await axios
-      .get(`${this.baseUrl}/get_group/${id}`, { headers: this.headers })
-      .then(res => {      
+
+    await this.httpClient
+      .get('/get_group/' + id)
+      .then(res => {
         group = res.data.group
       })
       .catch(error => console.log(error))
@@ -33,10 +29,9 @@ export default class SplitwiseService implements ISplitwiseService {
 
   async getGroups(): Promise<Group[]> {
     let groups = []
-    await axios
-      .get(`${this.baseUrl}/get_groups`, { headers: this.headers })
+    await this.httpClient
+      .get('/get_groups')
       .then(res => {
-        console.log('res', res)
         groups = res.data.groups
       })
       .catch(error => console.log(error))

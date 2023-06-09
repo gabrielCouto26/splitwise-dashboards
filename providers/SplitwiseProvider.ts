@@ -1,6 +1,5 @@
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import SplitwiseService from 'App/Services/SplitwiseService';
-import Env from '@ioc:Adonis/Core/Env';
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +25,9 @@ export default class SplitwiseProvider {
 
   public register() {
     // Registra SplitwiseService
-    this.app.container.singleton('App/Services/SplitwiseService', () => {
-      const SPLITWISE_API_KEY = Env.get('SPLITWISE_API_KEY', '')
-      return new SplitwiseService(SPLITWISE_API_KEY);
+    this.app.container.singleton('ioc:SplitwiseService', (app) => {
+      const HttpClient = app.use('ioc:HttpClient')
+      return new SplitwiseService({ HttpClient });
     });
   }
 
