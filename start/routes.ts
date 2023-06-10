@@ -20,5 +20,9 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
+Route.get('/', async ({ response }) => {
+  response.redirect().toRoute('/groups')
+})
+
 Route.get('/groups', 'GroupController.index')
 Route.get('/groups/:id', 'GroupController.show')
