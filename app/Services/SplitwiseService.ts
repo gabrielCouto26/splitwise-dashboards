@@ -60,10 +60,18 @@ export default class SplitwiseService implements ISplitwiseService {
       })
       .catch(error => console.log(error))
 
-    if (groupId)
-      return expenses.filter(expense => expense.group_id === groupId)
+    // Retorna despesas tratadas
+    return expenses.filter(expense => {
+      // Ignora despesas de pagamento e excluídas
+      if (expense.description === 'Payment' || expense.deleted_at)
+        return false
 
-    return expenses
+      // Filtra despesas por grupo
+      if (expense.group_id === groupId)
+        return true
+
+      return false
+    })
   }
 
   aggregateExpenses(expenses: Expense[]): { [key: string]: number } {
