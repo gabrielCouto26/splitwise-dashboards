@@ -39,11 +39,30 @@ export default class SplitwiseService implements ISplitwiseService {
     return groups
   }
 
-  getExpense(groupId: number, expenseId: number): Promise<Expense> {
-    throw new Error('Method not implemented.');
+  async getExpense(expenseId: number): Promise<Expense | null> {
+    let expense: Expense | null = null
+    await this.httpClient
+      .get('/get_expense/' + expenseId)
+      .then(res => {
+        expense = res.data.expense
+      })
+      .catch(error => console.log(error))
+
+    return expense
   }
 
-  getExpenses(groupId: number): Promise<Expense[]> {
-    throw new Error('Method not implemented.');
+  async getExpenses(groupId?: number): Promise<Expense[]> {
+    let expenses: Expense[] = []
+    await this.httpClient
+      .get('/get_expenses')
+      .then(res => {
+        expenses = res.data.expenses
+      })
+      .catch(error => console.log(error))
+
+    if (groupId)
+      return expenses.filter(expense => expense.group_id === groupId)
+
+    return expenses
   }
 }

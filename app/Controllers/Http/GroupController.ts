@@ -15,7 +15,7 @@ export default class GroupController {
   
   public async show ({ inertia, params }: HttpContextContract) {
     let group = await this.swService.getGroup(params.id)
-
-    return inertia.render('Group', { group })
+    let expenses = await this.swService.getExpenses(group?.id)
+    return inertia.render('Group', { group, expenses })
   }
 }
