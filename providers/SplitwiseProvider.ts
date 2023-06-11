@@ -1,5 +1,6 @@
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import SplitwiseService from 'App/Services/SplitwiseService';
+import SplitwiseClient from 'App/Integrators/SplitwiseClient';
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +25,16 @@ export default class SplitwiseProvider {
   constructor(protected app: ApplicationContract) {}
 
   public register() {
+    // Registra SplitwiseClient
+    this.app.container.singleton('ioc:SplitwiseClient', (app) => {
+      const HttpClient = app.use('ioc:HttpClient')
+      return new SplitwiseClient({ HttpClient });
+    });
+
     // Registra SplitwiseService
     this.app.container.singleton('ioc:SplitwiseService', (app) => {
-      const HttpClient = app.use('ioc:HttpClient')
-      return new SplitwiseService({ HttpClient });
+      const SplitwiseClient = app.use('ioc:SplitwiseClient')
+      return new SplitwiseService({ SplitwiseClient });
     });
   }
 
