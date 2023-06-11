@@ -6,4 +6,5 @@ export default interface ISplitwiseService {
   getGroup(id: number): Promise<Group | null>
   getExpenses(groupId?: number): Promise<Expense[]>
   getExpense(expenseId: number): Promise<Expense | null>
+  aggregateExpenses(expenses: Expense[]): { [key: string]: number }
 }
