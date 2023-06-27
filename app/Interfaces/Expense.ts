@@ -23,7 +23,7 @@ export interface Expense {
   cost: string | null
   currency_code: string | null
   repayments: Array<Repayment> | null
-  date: string | null
+  date: string
   created_at: string | null
   created_by: Member
   updated_at: string | null
