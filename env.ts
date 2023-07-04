@@ -23,4 +23,9 @@ export default Env.rules({
 	SESSION_DRIVER: Env.schema.string(),
   DRIVE_DISK: Env.schema.enum(['local'] as const),
 	NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
+  GCP_MYSQL_HOST: Env.schema.string({ format: 'host' }),
+  GCP_MYSQL_PORT: Env.schema.number(),
+  GCP_MYSQL_USER: Env.schema.string(),
+  GCP_MYSQL_PASSWORD: Env.schema.string.optional(),
+  GCP_MYSQL_DB_NAME: Env.schema.string(),
 })
