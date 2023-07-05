@@ -1,9 +1,7 @@
-import { Expense } from "../Expense"
-import { Group } from "../Group"
+import { Expense as IExpense } from "../Expense"
 
 export default interface IExpenseService {
-  getGroups(): Promise<Group[]>
-  getGroup(id: number): Promise<Group | null>
-  getExpenses(groupId?: number): Promise<Expense[]>
-  getExpense(expenseId: number): Promise<Expense | null>
+  getById(expenseId: number): Promise<IExpense | null>
+  getAll(): Promise<IExpense[]>
+  create(expense: IExpense): void
 }

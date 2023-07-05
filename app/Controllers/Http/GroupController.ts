@@ -12,13 +12,21 @@ export default class GroupController {
   }
 
   public async index ({ inertia }: HttpContextContract) {
-    let groups = await this.groupService.getGroups()
-    return inertia.render('Home', { groups })
+    try {
+      let groups = await this.groupService.getGroups()
+      return inertia.render('Home', { groups })
+    } catch (error) {
+      console.error(error)
+    }
   }
   
   public async show ({ inertia, params }: HttpContextContract) {
-    let group = await this.groupService.getGroup(params.id)
-    let expenses = await this.expenseService.getExpenses(group?.id)
-    return inertia.render('Group', { group, expenses })
+    try {
+      let group = await this.groupService.getGroup(params.id)
+      let expenses = await this.expenseService.getAll()
+      return inertia.render('Group', { group, expenses })
+    } catch (error) {
+      console.error(error)
+    }
   }
 }

@@ -5,26 +5,26 @@ export default class Expense extends BaseModel {
   public id: number
 
   @column()
-  public group_id: number | null
+  public group_id?: number | null
 
   @column()
-  public description: string | null
+  public description?: string | null
 
   @column()
-  public details: string | null
+  public details?: string | null
 
   @column()
-  public cost: string | null
+  public cost?: string | null
 
   @column()
   public date: string
 
   @column()
-  public created_at: string
+  public created_at?: string | null
 
   @column()
-  public updated_at: string
+  public updated_at?: string | null
 
   @column()
-  public deleted_at: string
+  public deleted_at?: string | null
 }
