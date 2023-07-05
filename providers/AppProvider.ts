@@ -1,18 +1,19 @@
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import ExpenseController from 'App/Controllers/Http/ExpenseController';
+import GroupController from 'App/Controllers/Http/GroupController';
 import IHttpClientConstructor from 'App/Interfaces/Http/IHttpClientConstructor';
 import SplitwiseClient from 'App/Integrators/SplitwiseClient';
 import ExpenseService from 'App/Services/ExpenseService';
+import GroupService from 'App/Services/GroupService';
 
 export default class AppProvider {
   constructor (protected app: ApplicationContract) {
   }
 
   public register () {
-    // Registra ExpenseController
-    this.app.container.singleton('App/Controllers/Http/ExpenseController', (app) => {
+    // Registra GroupController
+    this.app.container.singleton('App/Controllers/Http/GroupController', (app) => {
       const ExpenseService = app.use('ioc:ExpenseService')
-      return new ExpenseController({ ExpenseService });
+      return new GroupController({ ExpenseService });
     })
 
     // Registra HttpClient
@@ -36,6 +37,12 @@ export default class AppProvider {
       const Expense = app.use('App/Models/Expense').default
       const SplitwiseClient = app.use('ioc:SplitwiseClient')
       return new ExpenseService({ SplitwiseClient, Expense });
+    });
+
+    // Registra GroupService
+    this.app.container.singleton('ioc:GroupService', (app) => {
+      const SplitwiseClient = app.use('ioc:SplitwiseClient')
+      return new GroupService({ SplitwiseClient });
     });
   }
 

@@ -24,5 +24,5 @@ Route.get('/', async ({ response }) => {
   response.redirect().toRoute('/groups')
 })
 
-Route.get('/groups', 'ExpenseController.index')
-Route.get('/groups/:id', 'ExpenseController.show')
+Route.get('/groups', 'GroupController.index')
+Route.get('/groups/:id', 'GroupController.show')

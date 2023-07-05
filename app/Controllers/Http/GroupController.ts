@@ -1,7 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import IExpenseService from 'App/Interfaces/Services/IExpenseService'
 
-export default class ExpenseController {
+export default class GroupController {
   private swService: IExpenseService
 
   constructor ({ ExpenseService }) {
