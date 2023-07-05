@@ -1,11 +1,11 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import ISplitwiseService from 'App/Interfaces/Services/ISplitwiseService'
+import IExpenseService from 'App/Interfaces/Services/IExpenseService'
 
-export default class GroupController {
-  private swService: ISplitwiseService
+export default class ExpenseController {
+  private swService: IExpenseService
 
-  constructor ({ SplitwiseService }) {
-    this.swService = SplitwiseService
+  constructor ({ ExpenseService }) {
+    this.swService = ExpenseService
   }
 
   public async index ({ inertia }: HttpContextContract) {
@@ -16,7 +16,6 @@ export default class GroupController {
   public async show ({ inertia, params }: HttpContextContract) {
     let group = await this.swService.getGroup(params.id)
     let expenses = await this.swService.getExpenses(group?.id)
-    let aggrExpenses = this.swService.aggregateExpenses(expenses)
-    return inertia.render('Group', { group, expenses, aggrExpenses })
+    return inertia.render('Group', { group, expenses })
   }
 }

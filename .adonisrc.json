@@ -31,8 +31,8 @@
     "@adonisjs/view",
     "@adonisjs/shield",
     "@eidellev/inertia-adonisjs",
-    "./providers/SplitwiseProvider",
-    "@adonisjs/lucid"
+    "@adonisjs/lucid",
+    "./providers/SplitwiseProvider"
   ],
   "metaFiles": [
     {

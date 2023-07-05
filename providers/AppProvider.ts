@@ -1,5 +1,5 @@
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import GroupController from 'App/Controllers/Http/GroupController';
+import ExpenseController from 'App/Controllers/Http/ExpenseController';
 import IHttpClientConstructor from 'App/Interfaces/Http/IHttpClientConstructor';
 
 export default class AppProvider {
@@ -7,10 +7,10 @@ export default class AppProvider {
   }
 
   public register () {
-    // Registra GroupController
-    this.app.container.singleton('App/Controllers/Http/GroupController', (app) => {
-      const SplitwiseService = app.use('ioc:SplitwiseService')
-      return new GroupController({ SplitwiseService });
+    // Registra ExpenseController
+    this.app.container.singleton('App/Controllers/Http/ExpenseController', (app) => {
+      const ExpenseService = app.use('ioc:ExpenseService')
+      return new ExpenseController({ ExpenseService });
     })
 
     // Registra HttpClient

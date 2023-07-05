@@ -1,5 +1,5 @@
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import SplitwiseService from 'App/Services/SplitwiseService';
+import ExpenseService from 'App/Services/ExpenseService';
 import SplitwiseClient from 'App/Integrators/SplitwiseClient';
 
 /*
@@ -31,10 +31,11 @@ export default class SplitwiseProvider {
       return new SplitwiseClient({ HttpClient });
     });
 
-    // Registra SplitwiseService
-    this.app.container.singleton('ioc:SplitwiseService', (app) => {
+    // Registra ExpenseService
+    this.app.container.singleton('ioc:ExpenseService', (app) => {
+      const Expense = app.use('App/Models/Expense').default
       const SplitwiseClient = app.use('ioc:SplitwiseClient')
-      return new SplitwiseService({ SplitwiseClient });
+      return new ExpenseService({ SplitwiseClient, Expense });
     });
   }
 

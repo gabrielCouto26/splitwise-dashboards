@@ -1,7 +1,7 @@
 import { Expense } from "../Expense"
 import { Group } from "../Group"
 
-export default interface ISplitwiseService {
+export default interface IExpenseService {
   getGroups(): Promise<Group[]>
   getGroup(id: number): Promise<Group | null>
   getExpenses(): Promise<Expense[]>
