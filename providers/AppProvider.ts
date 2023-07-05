@@ -1,6 +1,8 @@
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import ExpenseController from 'App/Controllers/Http/ExpenseController';
 import IHttpClientConstructor from 'App/Interfaces/Http/IHttpClientConstructor';
+import SplitwiseClient from 'App/Integrators/SplitwiseClient';
+import ExpenseService from 'App/Services/ExpenseService';
 
 export default class AppProvider {
   constructor (protected app: ApplicationContract) {
@@ -22,6 +24,19 @@ export default class AppProvider {
         return HttpClient({ baseURL })
       }
     })
+
+    // Registra SplitwiseClient
+    this.app.container.singleton('ioc:SplitwiseClient', (app) => {
+      const HttpClient = app.use('ioc:HttpClient')
+      return new SplitwiseClient({ HttpClient });
+    });
+
+    // Registra ExpenseService
+    this.app.container.singleton('ioc:ExpenseService', (app) => {
+      const Expense = app.use('App/Models/Expense').default
+      const SplitwiseClient = app.use('ioc:SplitwiseClient')
+      return new ExpenseService({ SplitwiseClient, Expense });
+    });
   }
 
   public async boot () {
