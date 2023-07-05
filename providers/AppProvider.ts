@@ -12,8 +12,9 @@ export default class AppProvider {
   public register () {
     // Registra GroupController
     this.app.container.singleton('App/Controllers/Http/GroupController', (app) => {
+      const GroupService = app.use('ioc:GroupService')
       const ExpenseService = app.use('ioc:ExpenseService')
-      return new GroupController({ ExpenseService });
+      return new GroupController({ GroupService, ExpenseService });
     })
 
     // Registra HttpClient
