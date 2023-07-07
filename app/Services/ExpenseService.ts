@@ -1,35 +1,21 @@
 import IExpenseService from 'App/Interfaces/Services/IExpenseService';
-import ISplitwiseClient from 'App/Interfaces/Integrators/ISplitwiseClient';
 import { Expense as IExpense } from 'App/Interfaces/Expense';
-import { BaseModel } from '@ioc:Adonis/Lucid/Orm'
 
 export default class ExpenseService implements IExpenseService {
-  private splitwiseClient: ISplitwiseClient
-  private Expense: typeof BaseModel
+  private expenseRepository
 
-  constructor({ SplitwiseClient, Expense }) {
-    this.splitwiseClient = SplitwiseClient
-    this.Expense = Expense
+  constructor({ ExpenseRepository }) {
+    this.expenseRepository = new ExpenseRepository()
   }
 
   async getById(expenseId: number): Promise<IExpense | null> {
-    return await this.splitwiseClient.getExpense(expenseId)
+    return await this.expenseRepository.getById(expenseId)
   }
 
-  async getAll(): Promise<IExpense[]> {
-    return await this.splitwiseClient.getExpenses()
-  }
+  async getAll(filters: Record<string, any>): Promise<IExpense[]> {
+    if (!filters.page)
+      filters.page = 1
 
-  async create(expense: IExpense) {
-    const newExpense = this.destructureExpense(expense)
-    await this.Expense.firstOrCreate(
-      { id: newExpense.id }, newExpense)
-  }
-
-  private destructureExpense(expense: IExpense): IExpense {
-    const {
-      id,group_id,description,details,cost,date,created_at,updated_at,deleted_at
-    } = expense
-    return { id,group_id,description,details,cost,date,created_at,updated_at,deleted_at }
+    return await this.expenseRepository.getAll(filters)
   }
 }

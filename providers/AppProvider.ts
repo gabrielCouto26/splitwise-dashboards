@@ -43,9 +43,8 @@ export default class AppProvider {
 
     // Registra ExpenseService
     this.app.container.singleton('ioc:ExpenseService', (app) => {
-      const Expense = app.use('App/Models/Expense').default
-      const SplitwiseClient = app.use('ioc:SplitwiseClient')
-      return new ExpenseService({ SplitwiseClient, Expense });
+      const ExpenseRepository = require('App/Repositories/ExpenseRepository').default
+      return new ExpenseService({ ExpenseRepository });
     });
 
     // Registra GroupService

@@ -23,8 +23,9 @@ export default class GroupController {
   public async show ({ inertia, params }: HttpContextContract) {
     try {
       let group = await this.groupService.getGroup(params.id)
-      let expenses = await this.expenseService.getAll()
-      return inertia.render('Group', { group, expenses })
+      let expenses = await this.expenseService.getAll({ groupId: group?.id })
+      let aggrExpenses = await this.expenseService.getAll({ groupId: group?.id, month: true })
+      return inertia.render('Group', { group, expenses, aggrExpenses })
     } catch (error) {
       console.error(error)
     }
