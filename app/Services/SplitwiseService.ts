@@ -1,9 +1,8 @@
-import IExpenseService from 'App/Interfaces/Services/IExpenseService';
 import ISplitwiseClient from 'App/Interfaces/Integrators/ISplitwiseClient';
 import { Expense as IExpense } from 'App/Interfaces/Expense';
 import { BaseModel } from '@ioc:Adonis/Lucid/Orm'
 
-export default class ExpenseService implements IExpenseService {
+export default class SplitwiseService {
   private splitwiseClient: ISplitwiseClient
   private Expense: typeof BaseModel
 
@@ -12,18 +11,16 @@ export default class ExpenseService implements IExpenseService {
     this.Expense = Expense
   }
 
-  async getById(expenseId: number): Promise<IExpense | null> {
-    return await this.splitwiseClient.getExpense(expenseId)
-  }
-
-  async getAll(): Promise<IExpense[]> {
-    return await this.splitwiseClient.getExpenses()
-  }
-
-  async create(expense: IExpense) {
-    const newExpense = this.destructureExpense(expense)
-    await this.Expense.firstOrCreate(
-      { id: newExpense.id }, newExpense)
+  async loadExpenses(): Promise<boolean>{
+    try {
+      const expenses = await this.splitwiseClient.getExpenses()
+      const reducedExpenses = expenses.map(e => this.destructureExpense(e))
+      await this.Expense.fetchOrCreateMany('id', reducedExpenses)
+      return true
+    } catch (error) {
+      console.error(error)
+      return false
+    }
   }
 
   private destructureExpense(expense: IExpense): IExpense {

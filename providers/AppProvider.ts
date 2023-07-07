@@ -2,6 +2,7 @@ import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import GroupController from 'App/Controllers/Http/GroupController';
 import IHttpClientConstructor from 'App/Interfaces/Http/IHttpClientConstructor';
 import SplitwiseClient from 'App/Integrators/SplitwiseClient';
+import SplitwiseService from 'App/Services/SplitwiseService';
 import ExpenseService from 'App/Services/ExpenseService';
 import GroupService from 'App/Services/GroupService';
 
@@ -33,6 +34,13 @@ export default class AppProvider {
       return new SplitwiseClient({ HttpClient });
     });
 
+    // Registra SplitwiseService
+    this.app.container.singleton('ioc:SplitwiseService', (app) => {
+      const Expense = app.use('App/Models/Expense').default
+      const SplitwiseClient = app.use('ioc:SplitwiseClient')
+      return new SplitwiseService({ SplitwiseClient, Expense });
+    });
+
     // Registra ExpenseService
     this.app.container.singleton('ioc:ExpenseService', (app) => {
       const Expense = app.use('App/Models/Expense').default
@@ -49,6 +57,7 @@ export default class AppProvider {
 
   public async boot () {
     // IoC container is ready
+    await this.app.container.use('ioc:SplitwiseService').loadExpenses()
   }
 
   public async ready () {
